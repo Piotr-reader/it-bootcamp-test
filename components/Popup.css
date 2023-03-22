@@ -1,0 +1,38 @@
+#popup {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+}
+.popup_content {
+    position: relative;
+    top: 40%;
+    max-width: 600px;
+    width: 60%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.4);
+    border: 1px solid black;
+}
+.popup_close {
+    position: absolute;
+    top: -27px;
+    right: 0;
+    border-radius: 50%;
+    background-color: wheat;
+}
+.popup_close:hover {
+    background-color: white;
+    transform: scale(1.05);
+}
+.popup_text {
+    display: flex;
+}
+.text {
+    text-align: left;
+    margin: auto;
+}
+.popup_img {
+    border-radius: 8px;
+}
