@@ -1,0 +1,121 @@
+body {
+  background: aqua;
+}
+html {
+  scroll-behavior: smooth;
+}
+main {
+}
+#container {
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  max-width: 1100px;
+  /* justify-content: center; */
+}
+.toTopScroll {
+  position: fixed;
+  bottom: 100px;
+  right: 50px;
+  width: 60px;
+cursor: pointer;
+  z-index: 9999;
+}
+.item {
+  margin: 5px;
+  width: 250px;
+  height: 300px;
+  overflow: hidden;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.4);
+  border: 1px solid black;
+  transition: transform 200ms ease;
+  cursor: pointer;
+}
+.item:hover {
+  box-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.4);
+  transform: scale(0.98);
+}
+.image {
+  margin-top: 15px;
+  width: 200px;
+  border-radius: 8px;
+}
+.loading {
+  margin: 15px;
+  height: 25px;
+}
+.personName {
+  margin-top: 20px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+}
+
+#popup {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+}
+.popup_content {
+    position: relative;
+    top: 40%;
+    max-width: 600px;
+    width: 60%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.4);
+    border: 1px solid black;
+}
+.popup_close {
+    position: absolute;
+    top: -27px;
+    right: 0;
+    border-radius: 50%;
+    background-color: wheat;
+}
+.popup_close:hover {
+    background-color: white;
+    transform: scale(1.05);
+}
+.popup_text {
+    display: flex;
+}
+.text {
+    text-align: left;
+    margin: auto;
+}
+.popup_img {
+    border-radius: 8px;
+}
+
+@media (max-width: 1279px)  {
+    .popup_content {
+        /* max-width: 300px; */
+    }
+    .popup_img {
+      width: 150px;
+    }
+
+    .text {
+        text-align: unset;
+    }
+  }
+  @media (max-width: 767px) {
+    .popup_img {
+        display: none;
+      }
+      .popup_text {
+        display: block;
+      }
+}
+/*# sourceMappingURL=bundle.css.map*/

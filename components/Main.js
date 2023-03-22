@@ -47,7 +47,7 @@ const Main = (props) => {
 const scrollHandler = (e) => {
   const documentRect = document.documentElement.getBoundingClientRect();
       if (documentRect.bottom < document.documentElement.clientHeight+1) {
-          // setFetching(true)
+          setFetching(true)
   }
 }
   let item = [];
