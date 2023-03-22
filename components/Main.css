@@ -5,15 +5,20 @@ html {
   scroll-behavior: smooth;
 }
 main {
-  text-align: center;
-  justify-content: center;
-  display: flex;
 }
 #container {
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 1100px;
+  margin: 0 auto;
+  max-width: 1100px;
+  /* justify-content: center; */
 }
 .toTopScroll {
   position: fixed;
@@ -48,3 +53,5 @@ cursor: pointer;
   margin: 15px;
   height: 25px;
 }
+
+

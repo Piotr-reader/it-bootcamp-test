@@ -36,3 +36,23 @@
 .popup_img {
     border-radius: 8px;
 }
+
+@media (max-width: 1279px)  {
+    .popup_content {
+        max-width: 300px;
+    }
+    .popup_img {
+      width: 150px;
+    }
+    .popup_text {
+      display: block;
+    }
+    .text {
+        text-align: unset;
+    }
+  }
+  @media (max-width: 767px) {
+    .popup_img {
+        display: none;
+      }
+}

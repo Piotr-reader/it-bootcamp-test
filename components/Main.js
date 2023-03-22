@@ -47,7 +47,7 @@ const Main = (props) => {
 const scrollHandler = (e) => {
   const documentRect = document.documentElement.getBoundingClientRect();
       if (documentRect.bottom < document.documentElement.clientHeight+1) {
-          setFetching(true)
+          // setFetching(true)
   }
 }
   let item = [];
@@ -76,8 +76,12 @@ const scrollHandler = (e) => {
   }
 
   return <Fragment>
+    <div className="wrapper">
     {item}
+    </div>
+    <div>
     <img className="loading" src="./image/discord-loading-dots-discord-loading.gif" alt="loading" />
+    </div>
     <img className="toTopScroll" src="./image/circle-arrow-up-solid.svg" alt="picture" onClick={toTop}/>
     </Fragment>;
 };
