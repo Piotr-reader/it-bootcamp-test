@@ -30166,10 +30166,15 @@ var Main = function Main(props) {
       fetching = _useState2[0],
       setFetching = _useState2[1];
 
-  var _useState3 = (0, _react.useState)([]),
+  var _useState3 = (0, _react.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      result = _useState4[0],
-      setResult = _useState4[1];
+      isScroll = _useState4[0],
+      setScroll = _useState4[1];
+
+  var _useState5 = (0, _react.useState)("Pagination"),
+      _useState6 = _slicedToArray(_useState5, 2),
+      isSwitch = _useState6[0],
+      setSwitch = _useState6[1];
 
   var dataQuestions = (0, _reactRedux.useSelector)(function (state) {
     return state.dataQuestions;
@@ -30182,11 +30187,14 @@ var Main = function Main(props) {
   });
   var dispatch = (0, _reactRedux.useDispatch)();
 
+  var downLoading = '';
+
   (0, _react.useEffect)(function () {
     var url = "https://rickandmortyapi.com/api/character";
     if (dataPage > 1) {
       url = dataInfo.next;
     }
+
     if (fetching) {
       fetch(url).then(function (response) {
         return response.json();
@@ -30210,17 +30218,21 @@ var Main = function Main(props) {
   }, [fetching]);
 
   (0, _react.useEffect)(function () {
-    document.addEventListener("scroll", scrollHandler);
-    return function () {
-      document.removeEventListener("scroll", scrollHandler);
-    };
-  }, []);
-  var scrollHandler = function scrollHandler(e) {
+    if (isScroll) {
+      document.addEventListener("scroll", scrollHandler);
+      return function () {
+        document.removeEventListener("scroll", scrollHandler);
+      };
+    }
+  }, [isScroll]);
+
+  var scrollHandler = function scrollHandler() {
     var documentRect = document.documentElement.getBoundingClientRect();
     if (documentRect.bottom < document.documentElement.clientHeight + 1) {
       setFetching(true);
     }
   };
+
   var item = [];
   if (dataQuestions) {
     dataQuestions.forEach(function (element, index) {
@@ -30249,10 +30261,84 @@ var Main = function Main(props) {
   var toTop = function toTop() {
     window.scrollTo(0, 0);
   };
+  var isLoading = '';
+  if (dataInfo.next) {
+    isLoading = _react2.default.createElement("img", { className: "loading", src: "./image/discord-loading-dots-discord-loading.gif", alt: "loading" });
+  }
+
+  var btn_prev = function btn_prev() {
+    if (dataInfo.prev) {
+      fetch(dataInfo.prev).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        dispatch({
+          type: "dataQuestions",
+          dataQuestions: json.results
+        });
+        dispatch({
+          type: "dataInfo",
+          dataInfo: json.info
+        });
+        dispatch({
+          type: "dataPage",
+          currentPage: dataPage - 1
+        });
+      });
+    }
+  };
+  var btn_next = function btn_next() {
+    if (dataInfo.next) {
+      fetch(dataInfo.next).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        dispatch({
+          type: "dataQuestions",
+          dataQuestions: json.results
+        });
+        dispatch({
+          type: "dataInfo",
+          dataInfo: json.info
+        });
+        dispatch({
+          type: "dataPage",
+          currentPage: dataPage + 1
+        });
+      });
+    }
+  };
+  var pagination = _react2.default.createElement(
+    "div",
+    { className: "pagination" },
+    _react2.default.createElement("input", { className: "btn_prev", type: "button", defaultValue: "\u043D\u0430\u0437\u0430\u0434", onClick: btn_prev }),
+    _react2.default.createElement("input", { className: "btn_text", type: "text", value: dataPage - 1, onChange: function onChange() {} }),
+    _react2.default.createElement("input", { className: "btn_next", type: "button", defaultValue: "\u0432\u043F\u0435\u0440\u0435\u0434", onClick: btn_next })
+  );
+
+  var switchPagin = function switchPagin() {
+    if (isSwitch !== "Scroll") {
+      setScroll(true);
+      setSwitch("Scroll");
+    } else {
+      setScroll(false);
+      setSwitch("Pagination");
+      setFetching(false);
+    }
+  };
+  isScroll ? downLoading = isLoading : downLoading = pagination;
 
   return _react2.default.createElement(
     _react.Fragment,
     null,
+    _react2.default.createElement(
+      "div",
+      null,
+      _react2.default.createElement(
+        "p",
+        { className: "changeScrolltoPagination" },
+        "Switch to:",
+        _react2.default.createElement("input", { className: "switchPagination", type: "button", defaultValue: isSwitch, onClick: switchPagin })
+      )
+    ),
     _react2.default.createElement(
       "div",
       { className: "wrapper" },
@@ -30261,7 +30347,7 @@ var Main = function Main(props) {
     _react2.default.createElement(
       "div",
       null,
-      _react2.default.createElement("img", { className: "loading", src: "./image/discord-loading-dots-discord-loading.gif", alt: "loading" })
+      downLoading
     ),
     _react2.default.createElement("img", { className: "toTopScroll", src: "./image/circle-arrow-up-solid.svg", alt: "picture", onClick: toTop })
   );
