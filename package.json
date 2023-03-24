@@ -4,9 +4,9 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "build": ".//node_modules//.bin//webpack",
+    "build": ".\\node_modules\\.bin\\webpack",
     "start": ".\\node_modules\\.bin\\lite-server",
-    "livebuild": ".//node_modules//.bin//webpack-dev-server --progress --colors --history-api-fallback",
+    "livebuild": ".\\node_modules\\.bin\\webpack-dev-server --progress --colors --history-api-fallback",
     "server": "json-server -w db.json -p 3500",
     "dev": "concurrently \"npm run server\" \"npm run livebuild\""
   },
