@@ -1,23 +1,23 @@
-
 import React, { useEffect, Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import "./Main.css";
 import { useDispatch } from "react-redux";
 
 const Main = (props) => {
-  const [fetching, setFetching] = useState(true)
-  const [isScroll, setScroll] = useState(false)
-  const [isSwitch, setSwitch] = useState("Pagination")
+  const [fetching, setFetching] = useState(true);
+  const [isScroll, setScroll] = useState(false);
+  const [isSwitch, setSwitch] = useState("Scroll");
+  const [orderSet, setOrder] = useState(1);
   const dataQuestions = useSelector((state) => state.dataQuestions);
   const dataPage = useSelector((state) => state.dataPage);
   const dataInfo = useSelector((state) => state.dataInfo);
   const dispatch = useDispatch();
 
-  let downLoading = '';
+  let downLoading = "";
 
   useEffect(() => {
     let url = "https://rickandmortyapi.com/api/character";
-    if (dataPage>1) {
+    if (dataPage > 1) {
       url = dataInfo.next;
     }
 
@@ -27,7 +27,7 @@ const Main = (props) => {
         .then((json) => {
           dispatch({
             type: "dataQuestions",
-            dataQuestions: [...dataQuestions,...json.results],
+            dataQuestions: [...dataQuestions, ...json.results],
           });
           dispatch({
             type: "dataInfo",
@@ -35,28 +35,28 @@ const Main = (props) => {
           });
           dispatch({
             type: "dataPage",
-            currentPage: dataPage+1,
+            currentPage: dataPage + 1,
           });
         })
-        .finally(()=> setFetching(false));
+        .finally(() => setFetching(false));
     }
   }, [fetching]);
 
-  useEffect(()=> {
+  useEffect(() => {
     if (isScroll) {
-      document.addEventListener("scroll",scrollHandler)
-      return function() {
-        document.removeEventListener("scroll",scrollHandler)
-      }
+      document.addEventListener("scroll", scrollHandler);
+      return function () {
+        document.removeEventListener("scroll", scrollHandler);
+      };
     }
-  },[isScroll])
+  }, [isScroll]);
 
-    const scrollHandler = () => {
+  const scrollHandler = () => {
     const documentRect = document.documentElement.getBoundingClientRect();
-        if (documentRect.bottom < document.documentElement.clientHeight+1) {
-          setFetching(true)
+    if (documentRect.bottom < document.documentElement.clientHeight + 1) {
+      setFetching(true);
     }
-}
+  };
 
   let item = [];
   if (dataQuestions) {
@@ -80,85 +80,90 @@ const Main = (props) => {
   }
 
   const toTop = () => {
-    window.scrollTo(0,0)
-  }
-  let isLoading = ''
+    window.scrollTo(0, 0);
+  };
+  let isLoading = "";
   if (dataInfo.next) {
-    isLoading = <img className="loading" src="./image/discord-loading-dots-discord-loading.gif" alt="loading" />
+    isLoading = <img className="loading" src="./image/discord-loading-dots-discord-loading.gif" alt="loading" />;
   }
 
   const btn_prev = () => {
     if (dataInfo.prev) {
       fetch(dataInfo.prev)
-      .then((response) => response.json())
-      .then((json) => {
-        dispatch({
-          type: "dataQuestions",
-          dataQuestions: json.results,
+        .then((response) => response.json())
+        .then((json) => {
+          dispatch({
+            type: "dataQuestions",
+            dataQuestions: json.results,
+          });
+          dispatch({
+            type: "dataInfo",
+            dataInfo: json.info,
+          });
+          dispatch({
+            type: "dataPage",
+            currentPage: dataPage - 1,
+          });
         });
-        dispatch({
-          type: "dataInfo",
-          dataInfo: json.info,
-        });
-        dispatch({
-          type: "dataPage",
-          currentPage: dataPage-1,
-        });
-      })
     }
-  }
+  };
   const btn_next = () => {
     if (dataInfo.next) {
       fetch(dataInfo.next)
-      .then((response) => response.json())
-      .then((json) => {
-        dispatch({
-          type: "dataQuestions",
-          dataQuestions: json.results,
+        .then((response) => response.json())
+        .then((json) => {
+          dispatch({
+            type: "dataQuestions",
+            dataQuestions: json.results,
+          });
+          dispatch({
+            type: "dataInfo",
+            dataInfo: json.info,
+          });
+          dispatch({
+            type: "dataPage",
+            currentPage: dataPage + 1,
+          });
         });
-        dispatch({
-          type: "dataInfo",
-          dataInfo: json.info,
-        });
-        dispatch({
-          type: "dataPage",
-          currentPage: dataPage+1,
-        });
-      })
     }
-  }
-  let pagination = <div className="pagination">
+  };
+  let pagination = (
+    <div className="pagination">
       <input className="btn_prev" type="button" defaultValue="назад" onClick={btn_prev} />
-      <input className="btn_text" type="text" value={dataPage-1} onChange={()=>{}}/>
+      <input className="btn_text" type="text" value={dataPage - 1} onChange={() => {}} />
       <input className="btn_next" type="button" defaultValue="вперед" onClick={btn_next} />
-  </div>
+    </div>
+  );
 
-const switchPagin = () => {
-  if (isSwitch !== "Scroll") {
-    setScroll(true)
-    setSwitch("Scroll")
-  } else {
-    setScroll(false)
-    setSwitch("Pagination")
-    setFetching(false)
-  }
-}
-  isScroll?(downLoading=isLoading):(downLoading=pagination);
+  const switchPagin = () => {
+    if (isSwitch === "Scroll") {
+      setScroll(true);
+      setOrder(0);
+      setSwitch("Pagination");
+    } else {
+      setScroll(false);
+      setSwitch("Scroll");
+      setFetching(false);
+      setOrder(2);
+    }
+  };
+  isScroll ? (downLoading = isLoading) : (downLoading = pagination);
 
-  return <Fragment>
-    <div>
-      <p className="changeScrolltoPagination">Switch to:
-      <input className="switchPagination" type="button" defaultValue={isSwitch} onClick={switchPagin} />
-      </p>
-    </div>
-    <div className="wrapper">
-    {item}
-    </div>
-    <div>
-      {downLoading}
-    </div>
-    <img className="toTopScroll" src="./image/circle-arrow-up-solid.svg" alt="picture" onClick={toTop}/>
-    </Fragment>;
+  return (
+    <Fragment>
+      <div>
+        <p className="changeScrolltoPagination">
+          Switch to:
+          <input className="switchPagination" type="button" defaultValue={isSwitch} onClick={switchPagin} />
+        </p>
+      </div>
+      <div className="wrapper" style={{ order: orderSet }}>
+        {item}
+      </div>
+      <div>{downLoading}</div>
+      <img className="toTopScroll" src="./image/circle-arrow-up-solid.svg" alt="picture" onClick={toTop} />
+    </Fragment>
+  );
 };
 
 export default Main;
