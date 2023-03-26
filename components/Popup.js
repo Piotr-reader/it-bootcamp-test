@@ -17,7 +17,7 @@ const Popup = (props) => {
     });
   };
   let popup = [];
-  if (personIndex!==null&&dataQuestions) {
+  if (personIndex !== null && dataQuestions) {
     let person = dataQuestions[personIndex];
 
     popup = (
@@ -29,22 +29,32 @@ const Popup = (props) => {
           <div className="popup_text">
             <img className="popup_img" src={person.image} alt="image" />
             <div className="text">
-            <p>Name:{person.name}</p>
-            <p>Status: {person.status}</p>
-            <p>Species: {person.species}</p>
+              <p className="text_name">
+                Name: <span>{person.name}</span>
+              </p>
+              <p className="text_name">
+                Status: <span>{person.status}</span>
+              </p>
+              <p className="text_name">
+                Species: <span>{person.species}</span>
+              </p>
             </div>
             <div className="text">
-            <p>Origin: {person.origin.name}</p>
-            <p>Location: {person.location.name}</p>
-            <p>Gender: {person.gender}</p>
+              <p className="text_name">
+                Origin: <span>{person.origin.name}</span>
+              </p>
+              <p className="text_name">
+                Location: <span>{person.location.name}</span>
+              </p>
+              <p className="text_name">
+                Gender: <span>{person.gender}</span>
+              </p>
             </div>
           </div>
         </div>
       </div>
     );
   }
-
-
 
   return <Fragment>{popup}</Fragment>;
 };
