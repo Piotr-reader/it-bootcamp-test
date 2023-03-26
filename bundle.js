@@ -30171,10 +30171,15 @@ var Main = function Main(props) {
       isScroll = _useState4[0],
       setScroll = _useState4[1];
 
-  var _useState5 = (0, _react.useState)("Pagination"),
+  var _useState5 = (0, _react.useState)("Scroll"),
       _useState6 = _slicedToArray(_useState5, 2),
       isSwitch = _useState6[0],
       setSwitch = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(1),
+      _useState8 = _slicedToArray(_useState7, 2),
+      orderSet = _useState8[0],
+      setOrder = _useState8[1];
 
   var dataQuestions = (0, _reactRedux.useSelector)(function (state) {
     return state.dataQuestions;
@@ -30187,7 +30192,7 @@ var Main = function Main(props) {
   });
   var dispatch = (0, _reactRedux.useDispatch)();
 
-  var downLoading = '';
+  var downLoading = "";
 
   (0, _react.useEffect)(function () {
     var url = "https://rickandmortyapi.com/api/character";
@@ -30261,7 +30266,7 @@ var Main = function Main(props) {
   var toTop = function toTop() {
     window.scrollTo(0, 0);
   };
-  var isLoading = '';
+  var isLoading = "";
   if (dataInfo.next) {
     isLoading = _react2.default.createElement("img", { className: "loading", src: "./image/discord-loading-dots-discord-loading.gif", alt: "loading" });
   }
@@ -30315,13 +30320,15 @@ var Main = function Main(props) {
   );
 
   var switchPagin = function switchPagin() {
-    if (isSwitch !== "Scroll") {
+    if (isSwitch === "Scroll") {
       setScroll(true);
-      setSwitch("Scroll");
+      setOrder(0);
+      setSwitch("Pagination");
     } else {
       setScroll(false);
-      setSwitch("Pagination");
+      setSwitch("Scroll");
       setFetching(false);
+      setOrder(2);
     }
   };
   isScroll ? downLoading = isLoading : downLoading = pagination;
@@ -30341,7 +30348,7 @@ var Main = function Main(props) {
     ),
     _react2.default.createElement(
       "div",
-      { className: "wrapper" },
+      { className: "wrapper", style: { order: orderSet } },
       item
     ),
     _react2.default.createElement(
@@ -32447,21 +32454,33 @@ var Popup = function Popup(props) {
             { className: "text" },
             _react2.default.createElement(
               "p",
-              null,
-              "Name:",
-              person.name
+              { className: "text_name" },
+              "Name: ",
+              _react2.default.createElement(
+                "span",
+                null,
+                person.name
+              )
             ),
             _react2.default.createElement(
               "p",
-              null,
+              { className: "text_name" },
               "Status: ",
-              person.status
+              _react2.default.createElement(
+                "span",
+                null,
+                person.status
+              )
             ),
             _react2.default.createElement(
               "p",
-              null,
+              { className: "text_name" },
               "Species: ",
-              person.species
+              _react2.default.createElement(
+                "span",
+                null,
+                person.species
+              )
             )
           ),
           _react2.default.createElement(
@@ -32469,21 +32488,33 @@ var Popup = function Popup(props) {
             { className: "text" },
             _react2.default.createElement(
               "p",
-              null,
+              { className: "text_name" },
               "Origin: ",
-              person.origin.name
+              _react2.default.createElement(
+                "span",
+                null,
+                person.origin.name
+              )
             ),
             _react2.default.createElement(
               "p",
-              null,
+              { className: "text_name" },
               "Location: ",
-              person.location.name
+              _react2.default.createElement(
+                "span",
+                null,
+                person.location.name
+              )
             ),
             _react2.default.createElement(
               "p",
-              null,
+              { className: "text_name" },
               "Gender: ",
-              person.gender
+              _react2.default.createElement(
+                "span",
+                null,
+                person.gender
+              )
             )
           )
         )
